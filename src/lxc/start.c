@@ -131,7 +131,9 @@ int signalfd(int fd, const sigset_t *mask, int flags)
 #include "console.h"
 #include "sync.h"
 #include "namespace.h"
+#if HAVE_APPARMOR
 #include "apparmor.h"
+#endif
 #include "lxcseccomp.h"
 #include "caps.h"
 
@@ -335,12 +337,14 @@ struct lxc_handler *lxc_init(const char *name, struct lxc_conf *conf, const char
 	handler->conf = conf;
 	handler->lxcpath = lxcpath;
 
+#if HAVE_APPARMOR
 	apparmor_handler_init(handler);
 	handler->name = strdup(name);
 	if (!handler->name) {
 		ERROR("failed to allocate memory");
 		goto out_free;
 	}
+#endif
 
 	if (lxc_cmd_init(name, handler, lxcpath))
 		goto out_free_name;
@@ -586,8 +590,10 @@ static int do_start(void *data)
 	if (lxc_sync_barrier_parent(handler, LXC_SYNC_CGROUP))
 		return -1;
 
+#if HAVE_APPARMOR
 	if (apparmor_load(handler) < 0)
 		goto out_warn_father;
+#endif
 
 	if (lxc_seccomp_load(handler->conf) != 0)
 		goto out_warn_father;
