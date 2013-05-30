@@ -519,7 +519,7 @@ static int zfs_clone(const char *opath, const char *npath, const char *oname,
 		if ((p = index(output, ' ')) == NULL)
 			return -1;
 		*p = '\0';
-		if ((p = rindex(output, '/')) == NULL)
+		if ((p = strrchr(output, '/')) == NULL)
 			return -1;
 		*p = '\0';
 	} else
@@ -775,14 +775,14 @@ static int do_lvm_create(const char *path, unsigned long size)
 	pathdup = strdup(path);
 	if (!pathdup)
 		exit(1);
-	lv = rindex(pathdup, '/');
+	lv = strrchr(pathdup, '/');
 	if (!lv) {
 		free(pathdup);
 		exit(1);
 	}
 	*lv = '\0';
 	lv++;
-	vg = rindex(pathdup, '/');
+	vg = strrchr(pathdup, '/');
 	if (!vg)
 		exit(1);
 	vg++;
@@ -810,7 +810,7 @@ static int lvm_snapshot(const char *orig, const char *path, unsigned long size)
 	pathdup = strdup(path);
 	if (!pathdup)
 		exit(1);
-	lv = rindex(pathdup, '/');
+	lv = strrchr(pathdup, '/');
 	if (!lv) {
 		free(pathdup);
 		exit(1);
@@ -1118,7 +1118,7 @@ static int btrfs_subvolume_create(const char *path)
 		return -1;
 	}
 
-	p = rindex(newfull, '/');
+	p = strrchr(newfull, '/');
 	if (!p) {
 		ERROR("bad path: %s", path);
 		return -1;
@@ -1245,7 +1245,7 @@ static int btrfs_destroy(struct bdev *orig)
 		return -1;
 	}
 
-	p = rindex(newfull, '/');
+	p = strrchr(newfull, '/');
 	if (!p) {
 		ERROR("bad path: %s", path);
 		return -1;
@@ -1715,7 +1715,7 @@ struct bdev *bdev_create(const char *dest, const char *type,
 		 * btrfs backing store for the container.
 		 */
 		p = strdupa(dest);
-		p1 = rindex(p, '/');
+		p1 = strrchr(p, '/');
 		if (p1) {
 			*p1 = '\0';
 			if (is_btrfs_fs(p))
