@@ -35,6 +35,7 @@
 #include <sys/mount.h>
 #include <sys/wait.h>
 #include <libgen.h>
+#include <linux/fs.h>
 #include "lxc.h"
 #include "config.h"
 #include "conf.h"
