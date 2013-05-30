@@ -525,11 +525,14 @@ static int in_cgroup_list(char *s, char *list)
 	if (!list || !s)
 		return 0;
 
-	for (str = strdupa(list); (token = strtok_r(str, ",", &saveptr)); str = NULL) {
-		if (strcmp(s, token) == 0)
+	for (str = strdup(list); (token = strtok_r(str, ",", &saveptr)); str = NULL) {
+		if (strcmp(s, token) == 0) {
+			free(str);
 			return 1;
+		}
 	}
 
+	free(str);
 	return 0;
 }
 
@@ -537,13 +540,16 @@ static int have_visited(char *opts, char *visited, char *allcgroups)
 {
 	char *str, *s = NULL, *token;
 
-	for (str = strdupa(opts); (token = strtok_r(str, ",", &s)); str = NULL) {
+	for (str = strdup(opts); (token = strtok_r(str, ",", &s)); str = NULL) {
 		if (!in_cgroup_list(token, allcgroups))
 			continue;
-		if (visited && in_cgroup_list(token, visited))
+		if (visited && in_cgroup_list(token, visited)) {
+			free(str);
 			return 1;
+		}
 	}
 
+	free(str);
 	return 0;
 }
 
@@ -552,7 +558,7 @@ static int record_visited(char *opts, char **visitedp, char *allcgroups)
 	char *s = NULL, *token, *str;
 	int oldlen, newlen, ret;
 
-	for (str = strdupa(opts); (token = strtok_r(str, ",", &s)); str = NULL) {
+	for (str = strdup(opts); (token = strtok_r(str, ",", &s)); str = NULL) {
 		if (!in_cgroup_list(token, allcgroups))
 			continue;
 		if (*visitedp && in_cgroup_list(token, *visitedp))
@@ -560,11 +566,15 @@ static int record_visited(char *opts, char **visitedp, char *allcgroups)
 		oldlen = (*visitedp) ? strlen(*visitedp) : 0;
 		newlen = oldlen + strlen(token) + 2;
 		(*visitedp) = realloc(*visitedp, newlen);
-		if (!(*visitedp))
+		if (!(*visitedp)) {
+			free(str);
 			return -1;
+		}
 		ret = snprintf((*visitedp)+oldlen, newlen, ",%s", token);
-		if (ret < 0 || ret >= newlen)
+		if (ret < 0 || ret >= newlen) {
+			free(str);
 			return -1;
+		}
 	}
 
 	return 0;

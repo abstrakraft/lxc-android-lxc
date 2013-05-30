@@ -1315,11 +1315,15 @@ static int overlayfs_mount(struct bdev *bdev)
 
 	//  separately mount it first
 	//  mount -t overlayfs -oupperdir=${upper},lowerdir=${lower} lower dest
-	dup = strdupa(bdev->src);
-	if (!(lower = index(dup, ':')))
+	dup = strdup(bdev->src);
+	if (!(lower = index(dup, ':'))) {
+		free(dup);
 		return -22;
-	if (!(upper = index(++lower, ':')))
+	}
+	if (!(upper = index(++lower, ':'))) {
+		free(dup);
 		return -22;
+	}
 	*upper = '\0';
 	upper++;
 
@@ -1329,8 +1333,10 @@ static int overlayfs_mount(struct bdev *bdev)
 	len = strlen(lower) + strlen(upper) + strlen("upperdir=,lowerdir=") + 1;
 	options = alloca(len);
 	ret = snprintf(options, len, "upperdir=%s,lowerdir=%s", upper, lower);
-	if (ret < 0 || ret >= len)
+	if (ret < 0 || ret >= len) {
+		free(dup);
 		return -1;
+	}
 	ret = mount(lower, bdev->dest, "overlayfs", MS_MGC_VAL, options);
 	if (ret < 0)
 		SYSERROR("overlayfs: error mounting %s onto %s options %s",
@@ -1338,6 +1344,7 @@ static int overlayfs_mount(struct bdev *bdev)
 	else
 		INFO("overlayfs: mounted %s onto %s options %s",
 			lower, bdev->dest, options);
+	free(dup);
 	return ret;
 }
 
@@ -1483,11 +1490,12 @@ static int overlayfs_create(struct bdev *bdev, const char *dest, const char *n,
 		return -1;
 	}
 
-	delta = strdupa(dest);
+	delta = strdup(dest);
 	strcpy(delta+len-6, "delta0");
 
 	if (mkdir_p(delta, 0755) < 0) {
 		ERROR("Error creating %s\n", delta);
+		free(delta);
 		return -1;
 	}
 
@@ -1496,17 +1504,22 @@ static int overlayfs_create(struct bdev *bdev, const char *dest, const char *n,
 	bdev->src = malloc(newlen);
 	if (!bdev->src) {
 		ERROR("Out of memory");
+		free(delta);
 		return -1;
 	}
 	ret = snprintf(bdev->src, newlen, "overlayfs:%s:%s", dest, delta);
-	if (ret < 0 || ret >= newlen)
-		return -1;
-
-	if (mkdir_p(bdev->dest, 0755) < 0) {
-		ERROR("Error creating %s\n", bdev->dest);
+	if (ret < 0 || ret >= newlen) {
+		free(delta);
 		return -1;
 	}
 
+	if (mkdir_p(bdev->dest, 0755) < 0) {
+		ERROR("Error creating %s\n", bdev->dest);
+		free(delta);
+		return -1;
+	}
+
+	free(delta);
 	return 0;
 }
 
@@ -1714,13 +1727,14 @@ struct bdev *bdev_create(const char *dest, const char *type,
 		 * whether $lxcpath/$lxcname is btrfs.  If so, specify
 		 * btrfs backing store for the container.
 		 */
-		p = strdupa(dest);
+		p = strdup(dest);
 		p1 = strrchr(p, '/');
 		if (p1) {
 			*p1 = '\0';
 			if (is_btrfs_fs(p))
 				type = "btrfs";
 		}
+		free(p);
 	}
 
 	bdev = bdev_get(type);
