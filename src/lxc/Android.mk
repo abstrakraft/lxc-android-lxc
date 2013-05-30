@@ -1,0 +1,301 @@
+LOCAL_PATH := $(call my-dir)
+
+LXCINITDIR = /usr/libexec
+LXCPATH = /var/lib/lxc
+LXCROOTFSMOUNT = /usr/lib/lxc/rootfs
+LXC_GLOBAL_CONF = /etc/lxc/lxc.conf
+LOGPATH = /var/log/lxc
+LXCTEMPLATEDIR = /usr/share/lxc/templates
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := liblxc
+LOCAL_SRC_FILES := \
+	arguments.c bdev.c commands.c start.c execute.c monitor.c console.c \
+	freezer.c checkpoint.c restart.c error.c parse.c cgroup.c utils.c \
+	sync.c namespace.c conf.c confile.c state.c log.c attach.c network.c \
+	nl.c rtnl.c genl.c caps.c mainloop.c af_unix.c lxcutmp.c lxclock.c \
+	lxccontainer.c version.c ../include/openpty.c ../include/lxcmntent.c \
+	../include/getline.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-attach
+LOCAL_SRC_FILES := lxc_attach.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-unshare
+LOCAL_SRC_FILES := lxc_unshare.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-stop
+LOCAL_SRC_FILES := lxc_stop.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-start
+LOCAL_SRC_FILES := lxc_start.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-clone
+LOCAL_SRC_FILES := lxc_clone.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-execute
+LOCAL_SRC_FILES := lxc_execute.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-monitor
+LOCAL_SRC_FILES := lxc_monitor.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-monitord
+LOCAL_SRC_FILES := lxc_monitord.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-wait
+LOCAL_SRC_FILES := lxc_wait.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-console
+LOCAL_SRC_FILES := lxc_console.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-freeze
+LOCAL_SRC_FILES := lxc_freeze.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-info
+LOCAL_SRC_FILES := lxc_info.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-cgroup
+LOCAL_SRC_FILES := lxc_cgroup.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-unfreeze
+LOCAL_SRC_FILES := lxc_unfreeze.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-checkpoint
+LOCAL_SRC_FILES := lxc_checkpoint.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-restart
+LOCAL_SRC_FILES := lxc_restart.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-kill
+LOCAL_SRC_FILES := lxc_kill.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-config
+LOCAL_SRC_FILES := lxc_config.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-destroy
+LOCAL_SRC_FILES := lxc_destroy.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-create
+LOCAL_SRC_FILES := lxc_create.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-init
+LOCAL_SRC_FILES := lxc_init.c
+LOCAL_C_INCLUDES += external/lxc/src
+LOCAL_CFLAGS := -O2 -g -W -Wall \
+	-DLXCROOTFSMOUNT=\"$(LXCROOTFSMOUNT)\" -DLXCPATH=\"$(LXCPATH)\" \
+	-DLXCINITDIR=\"$(LXCINITDIR)\" -DLXCTEMPLATEDIR=\"$(LXCTEMPLATEDIR)\" \
+	-DLXC_GLOBAL_CONF=\"$(LXC_GLOBAL_CONF)\" -DLOGPATH=\"$(LOGPATH)\"
+LOCAL_SHARED_LIBRARIES := liblxc
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-ps
+LOCAL_SRC_FILES := lxc-ps
+LOCAL_MODULE_CLASS := EXECUTABLES
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-netstat
+LOCAL_SRC_FILES := lxc-netstat
+LOCAL_MODULE_CLASS := EXECUTABLES
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-checkconfig
+LOCAL_SRC_FILES := lxc-checkconfig
+LOCAL_MODULE_CLASS := EXECUTABLES
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc-version
+LOCAL_SRC_FILES := lxc-version
+LOCAL_MODULE_CLASS := EXECUTABLES
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := legacy/lxc-ls
+LOCAL_SRC_FILES := lxc-ls
+LOCAL_MODULE_CLASS := EXECUTABLES
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc.functions
+LOCAL_SRC_FILES := lxc.functions
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT)/usr/share/lxc
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := lxc
+LOCAL_REQUIRED_MODULES := \
+	liblxc lxc-attach lxc-unshare lxc-stop lxc-start lxc-clone lxc-execute \
+	lxc-monitor lxc-monitord lxc-wait lxc-console lxc-freeze lxc-info \
+	lxc-cgroup lxc-unfreeze lxc-checkpoint lxc-restart lxc-kill lxc-config \	lxc-destroy lxc-create lxc-init lxc-ps lxc-netstat lxc-checkconfig \
+	lxc-version lxc-ls lxc.functions
+include $(BUILD_PHONY_PACKAGE)
